@@ -2,5 +2,5 @@
 #define HOIMAU_H_
 
 
-
+const
 #endif // HOIMAU_H_
