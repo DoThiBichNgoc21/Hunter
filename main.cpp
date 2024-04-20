@@ -9,11 +9,11 @@
 
 using namespace std;
 
-const string LAYER[BACKGROUND_LAYER] =
-{
-    "img/background/Backgroud.png",
-
-};
+//const string LAYER[BACKGROUND_LAYER] =
+//{
+//    "img/background/Backgroud.png",
+//
+//};
 
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
@@ -41,7 +41,7 @@ SDL_Rect g_AppleClips[APPLE_FRAMES];
 
 BaseObject g_MenuTexture;
 BaseObject g_InstructionTexture;
-BaseObject g_BackgroundTexture[BACKGROUND_LAYER];
+BaseObject g_BackgroundTexture;
 BaseObject g_CharacterTexture;
 BaseObject g_HealthBarTexture;
 BaseObject g_GroundTexture;
@@ -70,6 +70,7 @@ Character character;
 
 HealthBar healthbar;
 
+
 int main(int argc, char* argv[])
 {
     if ( !Init() )
@@ -78,7 +79,6 @@ int main(int argc, char* argv[])
     }
     else
     {
-
         if ( !LoadMedia() )
         {
             cout << "Khong tai duoc phuong tien." << endl;
@@ -123,14 +123,12 @@ int main(int argc, char* argv[])
                 SDL_Rect* currentClip_Exit = &g_ExitButton[ExitButton.currentSprite];      //Vẽ nut Exit lên màn
                 ExitButton.Render(currentClip_Exit, g_Renderer, g_ExitButtonTexture);
 
-
-
                 SDL_RenderPresent(g_Renderer);    //Hiển thị tất cả những tha đổi được  vẽ lên màn
             }
 
                 while ( Play_Again )
                 {
-                    cout << 1;
+                    //cout << 1;
 
                     srand(time(NULL));
                     int time = 0;
@@ -149,14 +147,18 @@ int main(int argc, char* argv[])
                     Apple apple;
 
                     Mix_PlayMusic(g_Music, IS_REPEATITIVE);
-                    TaoKeThu(enemy1, enemy2, enemy3, g_EnemyClips, g_Renderer);
+
+                    TaoKeThu(enemy1, enemy2, enemy3, g_EnemyClips , g_Renderer);
+
                     TaoQua(apple, g_AppleClips, g_Renderer);
 
                     int OffSetSpeed_Ground = BASE_OFFSET_SPEED;
-                    vector<double> OffSetSpeed_BackGround( BACKGROUND_LAYER, BASE_OFFSET_SPEED );
-
-                    bool Quit = true;
+                    //vector<double> OffSetSpeed_BackGround( BACKGROUND_LAYER, BASE_OFFSET_SPEED );
+                    int OffSetSpeed_BackGround = BASE_OFFSET_SPEED;
+                    bool Quit = false;
                     bool Game_State = true;
+
+
 
                     int HP = 100;
                     while ( !Quit )
@@ -179,7 +181,7 @@ int main(int argc, char* argv[])
                         SDL_SetRenderDrawColor(g_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
                         SDL_RenderClear(g_Renderer);
 
-                        RenderScrollingBackgroud( OffSetSpeed_BackGround, g_BackgroundTexture, g_Renderer );
+                        RenderScrollingBackgroud( OffSetSpeed_BackGround, acceleration, g_BackgroundTexture, g_Renderer );
                         RenderScrollingGroud( OffSetSpeed_Ground, acceleration, g_GroundTexture, g_Renderer );
 
                         character.DiChuyen();
@@ -188,7 +190,6 @@ int main(int argc, char* argv[])
                         {
                             currentClip_Character = &g_CharacterClips [frame_Character / SLOW_FRAME_CHAR];
                             character.Render ( currentClip_Character, g_Renderer, g_CharacterTexture );
-
                         }
                         else
                         {
@@ -223,14 +224,14 @@ int main(int argc, char* argv[])
                         if (KiemtraVaChamKeThu( character, enemy1, enemy2, enemy3,
                                                  currentClip_Character, currentClip_Enemy))
                         {
-                            HP -= 1;
+                            HP = HP - 1;
                             cout << HP << endl;
                             Mix_PlayChannel( MIX_CHANNEL, g_Lose, NOT_REPEATITIVE );
 
                         }
                         else if( KiemtraVaChamHoiMau(character, apple, currentClip_Character, currentClip_Apple))
                         {
-                            if ( (HP+1) <= 100 ) HP++;
+                            if ( (HP+1) <= 100 ) HP = HP + 1;
                             cout << HP << endl;
                             Mix_PlayChannel( MIX_CHANNEL, g_Lose, NOT_REPEATITIVE );
                         }
@@ -246,7 +247,8 @@ int main(int argc, char* argv[])
                         KiemsoatEch(frame_Character);
                         KiemsoatKeThu(frame_Enemy);
                         KiemsoatHoiMau(frame_Apple, KiemtraVaChamHoiMau(character, apple,
-                                                                           currentClip_Character, currentClip_Apple), apple.GetPosX() );
+                                                                           currentClip_Character,
+                                                                           currentClip_Apple), apple.GetPosX() );
 
                     }
                 }
@@ -358,9 +360,9 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
     }
     else
     {
-        g_Front = TTF_OpenFont("font/font.ttf", 28);
-        g_Front2 = TTF_OpenFont("font/font.ttf", 40);
-        if ( g_Front == nullptr )
+        g_Front = TTF_OpenFont("font/font.ttf", 24);
+        g_Front2 = TTF_OpenFont("font/font.ttf", 36);
+        if ( g_Front == NULL )
         {
             LogError("Khong load duoc font", MIXER_ERROR );
             success = false;
@@ -401,10 +403,10 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                 for ( int i = 0; i< BUTTON_TOTAL; ++i)
                 {
-                    g_PlayButton[i].x = 150 * i;
+                    g_PlayButton[i].x = 238 * i;
                     g_PlayButton[i].y = 0;
-                    g_PlayButton[i].w = 150;
-                    g_PlayButton[i].h = 98;
+                    g_PlayButton[i].w = 238;
+                    g_PlayButton[i].h = 82;
                 }
             }
 
@@ -417,10 +419,10 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                 for ( int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    g_HelpButton[i].x = 150 * i;
+                    g_HelpButton[i].x = 238 * i;
                     g_HelpButton[i].y = 0;
-                    g_HelpButton[i].w = 150;
-                    g_HelpButton[i].h = 98;
+                    g_HelpButton[i].w = 238;
+                    g_HelpButton[i].h = 82;
                 }
             }
 
@@ -433,10 +435,10 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                for ( int i = 0; i < BUTTON_TOTAL; ++i )
                {
-                  g_BackButton[i].x = 100 * i;
+                  g_BackButton[i].x = 67 * i;
                   g_BackButton[i].y = 0;
-                  g_BackButton[i].w = 100;
-                  g_BackButton[i].h = 78;
+                  g_BackButton[i].w = 67;
+                  g_BackButton[i].h = 76;
                }
             }
 
@@ -449,10 +451,10 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                 for ( int i = 0; i < BUTTON_TOTAL; ++i)
                 {
-                    g_ExitButton[i].x = 150 * i;
+                    g_ExitButton[i].x = 238 * i;
                     g_ExitButton[i].y = 0;
-                    g_ExitButton[i].w = 150;
-                    g_ExitButton[i].h = 98;
+                    g_ExitButton[i].w = 238;
+                    g_ExitButton[i].h = 82;
                 }
             }
 
@@ -465,10 +467,10 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                 for ( int i = 0; i < BUTTON_TOTAL; ++i )
                 {
-                    g_PauseButton[i].x = 22 * i;
+                    g_PauseButton[i].x = 67 * i;
                     g_PauseButton[i].y = 0;
-                    g_PauseButton[i].w = 22;
-                    g_PauseButton[i].h = 34;
+                    g_PauseButton[i].w = 67;
+                    g_PauseButton[i].h = 76;
                 }
             }
 
@@ -481,21 +483,21 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
             {
                 for ( int i = 0; i < BUTTON_TOTAL; ++i )
                 {
-                    g_ContinueButton[i].x = 22 * i;
+                    g_ContinueButton[i].x = 67 * i;
                     g_ContinueButton[i].y = 0;
-                    g_ContinueButton[i].w = 22;
-                    g_ContinueButton[i].h = 34;
+                    g_ContinueButton[i].w = 67;
+                    g_ContinueButton[i].h = 76;
                 }
             }
 
-           for (int i = 0; i < BACKGROUND_LAYER; ++i)
-           {
-               if ( !g_BackgroundTexture[i].LoadFromFile(LAYER[i].c_str(), g_Renderer))
+ //          for (int i = 0; i < BACKGROUND_LAYER; ++i)
+  //         {
+               if ( !g_BackgroundTexture.LoadFromFile("img/background/Background.png", g_Renderer))
                {
                    cout << "Khong the hien thi background img" << endl;
                    success = false;
                }
-           }
+  //         }
 
            if ( !g_GroundTexture.LoadFromFile("img/background/ground.png", g_Renderer))
            {
@@ -503,42 +505,42 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
                success = false;
            }
 
-           if (!g_HealthBarTexture.LoadFromFile("img/ech/echrun.png", g_Renderer))
+           if (!g_CharacterTexture.LoadFromFile("img/ech/echrun.png", g_Renderer))
            {
                cout << "Khong the hien thi nhan vat ech" << endl;
                success = false;
            }
            else
            {
-                g_CharacterClips[0].x = 75 * 0;
+                g_CharacterClips[0].x = 103 * 0;
                 g_CharacterClips[0].y = 0;
-                g_CharacterClips[0].w = 75;
-                g_CharacterClips[0].h = 85;
+                g_CharacterClips[0].w = 103;
+                g_CharacterClips[0].h = 110;
 
-                g_CharacterClips[1].x = 75 * 1;
+                g_CharacterClips[1].x = 103 * 1;
                 g_CharacterClips[1].y = 0;
-                g_CharacterClips[1].w = 75;
-                g_CharacterClips[1].h = 85;
+                g_CharacterClips[1].w = 103;
+                g_CharacterClips[1].h = 110;
 
-                g_CharacterClips[2].x = 75 * 2;
+                g_CharacterClips[2].x = 103 * 2;
                 g_CharacterClips[2].y = 0;
-                g_CharacterClips[2].w = 75;
-                g_CharacterClips[2].h = 85;
+                g_CharacterClips[2].w = 103;
+                g_CharacterClips[2].h = 110;
 
-                g_CharacterClips[3].x = 75 * 3;
+                g_CharacterClips[3].x = 103 * 3;
                 g_CharacterClips[3].y = 0;
-                g_CharacterClips[3].w = 75;
-                g_CharacterClips[3].h = 85;
+                g_CharacterClips[3].w = 103;
+                g_CharacterClips[3].h = 110;
 
-                g_CharacterClips[4].x = 75 * 4;
+                g_CharacterClips[4].x = 103 * 4;
                 g_CharacterClips[4].y = 0;
-                g_CharacterClips[4].w = 75;
-                g_CharacterClips[4].h = 85;
+                g_CharacterClips[4].w = 103;
+                g_CharacterClips[4].h = 110;
 
-                g_CharacterClips[5].x = 75 * 5;
-                g_CharacterClips[5].y = 0;
-                g_CharacterClips[5].w = 75;
-                g_CharacterClips[5].h = 85;
+//                g_CharacterClips[5].x = 110 * 5;
+//                g_CharacterClips[5].y = 0;
+//                g_CharacterClips[5].w = 110;
+//                g_CharacterClips[5].h = 85;
            }
 
            if ( !g_HealthBarTexture.LoadFromFile("img/hp/hp.png", g_Renderer))
@@ -716,10 +718,10 @@ void Close()
     g_Text3Texture.Free();
     g_HPTexture.Free();
 
-    for ( int i = 0; i < BACKGROUND_LAYER; ++i)
-    {
-        g_BackgroundTexture[i].Free();
-    }
+//    for ( int i = 0; i < BACKGROUND_LAYER; ++i)
+//    {
+        g_BackgroundTexture.Free();
+//    }
 
     Mix_FreeMusic(g_Music);
     Mix_FreeMusic(g_MenuMusic);
