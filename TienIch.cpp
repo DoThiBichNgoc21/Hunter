@@ -49,28 +49,17 @@ int UpdateGameTimeAndScore( int& time, int& speed, int& score )      //Cập nh�
     return time;
 }
 
-void RenderScrollingBackgroud( vector<double> offSetSpeed,                               // Background cuộn
-                          BaseObject (&g_BackgroundTexture) [BACKGROUND_LAYER],
-                          SDL_Renderer* g_Renderer )
+  void RenderScrollingBackgroud ( int &speed, const int tangtoc,              //Background cuộn
+                           BaseObject g_BackgroundTexture,
+                           SDL_Renderer* g_Renderer )
 {
-    vector<double> layer_speed;
-    layer_speed.push_back(LAYER_1_SPEED);
-    layer_speed.push_back(LAYER_2_SPEED);
-    layer_speed.push_back(LAYER_3_SPEED);
-    layer_speed.push_back(LAYER_4_SPEED);
-    layer_speed.push_back(LAYER_5_SPEED);
-
-    for ( int i = 0; i < BACKGROUND_LAYER; ++i )                               //vẽ và di chuển các lớp nền background
+    speed -= GROUND_SPEED + tangtoc;
+    if ( speed < -g_BackgroundTexture.GetWidth() )
     {
-       offSetSpeed[i] -= layer_speed[i];
-       if ( offSetSpeed[i] < -g_BackgroundTexture[i].GetWidth() )
-       {
-           offSetSpeed[i] = 0;
-       }
-       g_BackgroundTexture[i].Render( offSetSpeed[i], 0, g_Renderer );
-       g_BackgroundTexture[i].Render( offSetSpeed[i] + g_BackgroundTexture[i].GetWidth(), 0, g_Renderer );
-
+        speed = 0;
     }
+    g_BackgroundTexture.Render( speed, 0, g_Renderer );
+    g_BackgroundTexture.Render( speed + g_BackgroundTexture.GetWidth(), 0, g_Renderer );
 }
 
 void RenderScrollingGroud ( int &speed, const int tangtoc,                              // Mặt đất cuộn
@@ -267,63 +256,53 @@ void XuliPauseButton ( SDL_Event& e,
     PauseButton.currentSprite = BUTTON_MOUSE_OUT;
 }
 
-void TaoKeThu ( Enemy& enemy1,
+void TaoKeThu(Enemy& enemy1,
                 Enemy& enemy2,
                 Enemy& enemy3,
                 SDL_Rect (&g_EnemyClips)[FLYING_FRAMES],
-                SDL_Renderer* g_Renderer )
+                SDL_Renderer * g_Renderer )
 {
     enemy1.LoadFromFile( "img/KeThu/quai1.png", g_Renderer);
     enemy2.LoadFromFile( "img/KeThu/quai2.png", g_Renderer);
     enemy3.LoadFromFile( "img/KeThu/quai3.png", g_Renderer);
-    {
-        g_EnemyClips[0].x = 64 * 0;
+ {
+        g_EnemyClips[0].x = 56 * 0;
         g_EnemyClips[0].y = 0;
-        g_EnemyClips[0].w = 64;
-        g_EnemyClips[0].h = 64;
+        g_EnemyClips[0].w = 56;
+        g_EnemyClips[0].h = 49;
 
-        g_EnemyClips[1].x = 64 * 1;
+        g_EnemyClips[1].x = 56 * 1;
         g_EnemyClips[1].y = 0;
-        g_EnemyClips[1].w = 64;
-        g_EnemyClips[1].h = 64;
+        g_EnemyClips[1].w = 56;
+        g_EnemyClips[1].h = 49;
 
-        g_EnemyClips[2].x = 64 * 2;
+        g_EnemyClips[2].x = 56 * 2;
         g_EnemyClips[2].y = 0;
-        g_EnemyClips[2].w = 64;
-        g_EnemyClips[2].h = 64;
+        g_EnemyClips[2].w = 56;
+        g_EnemyClips[2].h = 49;
 
-        g_EnemyClips[3].x = 64 * 3;
+        g_EnemyClips[3].x = 56 * 3;
         g_EnemyClips[3].y = 0;
-        g_EnemyClips[3].w = 64;
-        g_EnemyClips[3].h = 64;
-
-        g_EnemyClips[4].x = 64 * 4;
-        g_EnemyClips[4].y = 0;
-        g_EnemyClips[4].w = 64;
-        g_EnemyClips[4].h = 64;
-
-        g_EnemyClips[5].x = 64 * 5;
-        g_EnemyClips[5].y = 0;
-        g_EnemyClips[5].w = 64;
-        g_EnemyClips[5].h = 64;
-    }
+        g_EnemyClips[3].w = 56;
+        g_EnemyClips[3].h = 49;
+   }
 }
 
-void TaoQua ( Apple& apple,
+void TaoQua( Apple& apple,
              SDL_Rect (&g_AppleClips)[APPLE_FRAMES],
              SDL_Renderer* g_Renderer)
 {
     apple.LoadFromFile( "img/KeThu/Qua.png", g_Renderer );
     {
-        g_AppleClips[0].x = 36 * 0;
+        g_AppleClips[0].x = 46 * 0 ;
         g_AppleClips[0].y = 0;
-        g_AppleClips[0].w = 36;
-        g_AppleClips[0].h = 41;
+        g_AppleClips[0].w = 46;
+        g_AppleClips[0].h = 35;
 
-        g_AppleClips[1].x = 36 * 1;
+        g_AppleClips[1].x = 46 * 1;
         g_AppleClips[1].y = 0;
-        g_AppleClips[1].w = 36;
-        g_AppleClips[1].h = 41;
+        g_AppleClips[1].w = 46;
+        g_AppleClips[1].h = 35;
     }
 }
 
@@ -359,8 +338,8 @@ bool KiemtraVaCham (Character character,
     }
     else if ( enemy.GetType() == IN_AIR_ENEMY )
     {
-        const int TRASH_PIXEL_1 = 22;
-        const int TRASH_PIXEL_2 = 18;
+        const int TRASH_PIXEL_1 = 20;
+        const int TRASH_PIXEL_2 = 10;
 
         int left_b = enemy.GetPosX() + TRASH_PIXEL_1;
         int right_b = enemy.GetPosX() + enemy_clip->w - TRASH_PIXEL_1;
@@ -507,7 +486,7 @@ void KiemsoatHoiMau ( int& frame, bool check, int location )
     }
 }
 
-void DrawHPScore ( BaseObject g_TextTexture,
+void DrawHPScore ( BaseObject g_TextTexture,       //Ve, hien thi diem mau
                    BaseObject g_HPTexture,
                    SDL_Color textColor,
                    SDL_Renderer* g_Renderer,
@@ -521,7 +500,7 @@ void DrawHPScore ( BaseObject g_TextTexture,
     }
 }
 
-void DrawPlayerScore ( BaseObject g_TextTexture,
+void DrawPlayerScore ( BaseObject g_TextTexture,         //Ve, hien thi diem cua nguoi chơi len man hinh
                      BaseObject g_ScoreTexture,
                      SDL_Color textColor,
                      SDL_Renderer* g_Renderer,
@@ -535,7 +514,7 @@ void DrawPlayerScore ( BaseObject g_TextTexture,
     }
 }
 
-void DrawPlayerHighScore ( BaseObject g_TextTexture,
+void DrawPlayerHighScore ( BaseObject g_TextTexture,          //Hien thi diem cao nhat cua nguoi choi len man
                            BaseObject g_HighScoreTexture,
                            SDL_Color textColor,
                            SDL_Renderer* g_Renderer,
