@@ -24,10 +24,9 @@ void UpdateHighScore( string path, const int& score, const string& OldHighScore 
 
 int UpdateGameTimeAndScore( int &time, int &speed, int &score );
 
-void RenderScrollingBackgroud( vector<double> offSetSpeed,                               // Background cuộn
-                          BaseObject (&g_BackgroundTexture) [BACKGROUND_LAYER],
-                          SDL_Renderer* g_Renderer );
-
+void RenderScrollingBackgroud ( int &speed, const int tangtoc,
+                               BaseObject g_BackgroundTexture,
+                               SDL_Renderer* g_Renderer );
 void RenderScrollingGroud ( int &speed, const int tangtoc,                              // Mặt đất cuộn
                            BaseObject g_GroundTexture,
                            SDL_Renderer* g_Renderer );
@@ -77,7 +76,7 @@ void TaoKeThu ( Enemy& enemy1,
                 SDL_Renderer* g_Renderer );
 
 void TaoQua ( Apple& apple,
-             SDL_Rect (&g_AppleClips)[APPLE_FRAMES],
+             SDL_Rect(&g_AppleClips)[APPLE_FRAMES],
              SDL_Renderer* g_Renderer);
 
 bool KiemtraVaCham (Character character,
@@ -136,4 +135,4 @@ void DrawLuaChonEndGame ( BaseObject g_LoseTexture,
                          SDL_Renderer* g_Renderer,
                          bool& PlayAgain );
 
-#endif // TIENICH_H_INCLUDED
+#endif // TIENICH_H_
