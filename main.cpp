@@ -9,12 +9,6 @@
 
 using namespace std;
 
-//const string LAYER[BACKGROUND_LAYER] =
-//{
-//    "img/background/Backgroud.png",
-//
-//};
-
 SDL_Window* g_Window = nullptr;
 SDL_Renderer* g_Renderer = nullptr;
 SDL_Color textColor = { 255, 255, 255 };
@@ -153,7 +147,6 @@ int main(int argc, char* argv[])
                     TaoQua(apple, g_AppleClips, g_Renderer);
 
                     int OffSetSpeed_Ground = BASE_OFFSET_SPEED;
-                    //vector<double> OffSetSpeed_BackGround( BACKGROUND_LAYER, BASE_OFFSET_SPEED );
                     int OffSetSpeed_BackGround = BASE_OFFSET_SPEED;
                     bool Quit = false;
                     bool Game_State = true;
@@ -490,14 +483,11 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
                 }
             }
 
- //          for (int i = 0; i < BACKGROUND_LAYER; ++i)
-  //         {
-               if ( !g_BackgroundTexture.LoadFromFile("img/background/Background.png", g_Renderer))
-               {
-                   cout << "Khong the hien thi background img" << endl;
-                   success = false;
-               }
-  //         }
+           if ( !g_BackgroundTexture.LoadFromFile("img/background/Background.png", g_Renderer))
+           {
+                cout << "Khong the hien thi background img" << endl;
+                success = false;
+           }
 
            if ( !g_GroundTexture.LoadFromFile("img/background/ground.png", g_Renderer))
            {
@@ -536,11 +526,6 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
                 g_CharacterClips[4].y = 0;
                 g_CharacterClips[4].w = 103;
                 g_CharacterClips[4].h = 110;
-
-//                g_CharacterClips[5].x = 110 * 5;
-//                g_CharacterClips[5].y = 0;
-//                g_CharacterClips[5].w = 110;
-//                g_CharacterClips[5].h = 85;
            }
 
            if ( !g_HealthBarTexture.LoadFromFile("img/hp/hp.png", g_Renderer))
@@ -717,11 +702,7 @@ void Close()
     g_HighScoreTexture.Free();
     g_Text3Texture.Free();
     g_HPTexture.Free();
-
-//    for ( int i = 0; i < BACKGROUND_LAYER; ++i)
-//    {
-        g_BackgroundTexture.Free();
-//    }
+    g_BackgroundTexture.Free();
 
     Mix_FreeMusic(g_Music);
     Mix_FreeMusic(g_MenuMusic);
