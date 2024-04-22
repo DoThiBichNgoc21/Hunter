@@ -25,9 +25,9 @@ public:
     int GetPosY();
     int GetWidth();
     int GetHeight();
+    int PosX, PosY;
 
 private:
-    int PosX, PosY;
     int e_Width, e_Height;
     int type;
 
