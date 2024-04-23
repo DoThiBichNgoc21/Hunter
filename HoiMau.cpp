@@ -9,7 +9,7 @@ Apple::Apple()
     e_Width = 0;
     e_Height = 0;
 
-    PosX = rand() % ( SCREEN_WIDTH + APPLE_POSITION_RANGE ) + SCREEN_WIDTH;
+    PosX = 1000;
     PosY = 250;
 
     AppleTexture = nullptr;
@@ -30,29 +30,27 @@ Apple::~Apple()
 
 void Apple::LoadFromFile(string path, SDL_Renderer* g_Renderer )
 {
-    SDL_Texture* tmpTexture = nullptr;
-    SDL_Surface* tmpSurface = IMG_Load( path.c_str() );
-
-    if ( tmpSurface == nullptr )
-    {
-        LogError("Khong the load img", IMAGE_ERROR);
-    }
-    else
-    {
-        SDL_SetColorKey( tmpSurface, SDL_TRUE, SDL_MapRGB( tmpSurface->format, 0, 255, 255 ) );
-        tmpTexture = SDL_CreateTextureFromSurface(g_Renderer, tmpSurface);
-        if ( tmpTexture = nullptr )
-        {
-           LogError("Khong the tao ket cau tu be mat", SDL_ERROR);
-        }
-        else
-        {
-             e_Width = tmpSurface->w;
-             e_Height = tmpSurface->h;
-        }
-       SDL_FreeSurface( tmpSurface );
-    }
-    AppleTexture = tmpTexture;
+     SDL_Texture* tmpTexture = nullptr;
+     SDL_Surface* tmpSurface = IMG_Load( path.c_str() );
+     if ( tmpSurface == nullptr )
+     {
+        LogError("Khong the load img ", IMAGE_ERROR);
+     }
+     else
+     {
+         SDL_SetColorKey( tmpSurface, SDL_TRUE, SDL_MapRGB( tmpSurface->format, 0, 255, 255 ) );
+         tmpTexture = SDL_CreateTextureFromSurface( g_Renderer, tmpSurface);
+         if ( tmpSurface == nullptr )
+         {
+            LogError("Khong the tao ket cau tu be mat", SDL_ERROR);
+         }
+         else{
+            e_Width = tmpSurface->w;
+            e_Height = tmpSurface->h;
+         }
+         SDL_FreeSurface ( tmpSurface );
+     }
+     AppleTexture = tmpTexture;
 }
 
 void Apple::Move( const int& acceleration )
