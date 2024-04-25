@@ -6,19 +6,21 @@ Enemy::Enemy( int _type )
 {
     PosX = 0;
     PosY = 0;
+
     e_Width = 0;
     e_Height = 0;
+
     type = _type;
 
-    if ( type = IN_AIR_ENEMY )
+    if ( type == IN_AIR_ENEMY )
     {
         PosX = rand() % ( SCREEN_WIDTH + ENEMY_POSITION_RANGE ) + SCREEN_WIDTH;
-        PosY = 330;
+        PosY = 250;
     }
-    else if ( type = ON_GROUND_ENEMY )
+    else if ( type == ON_GROUND_ENEMY )
     {
         PosX = rand() % ( SCREEN_WIDTH + ENEMY_POSITION_RANGE ) + SCREEN_WIDTH;
-        PosY = GROUND - 8;
+        PosY = GROUND + 15;
     }
     EnemyTexture = nullptr;
 }
@@ -27,8 +29,10 @@ Enemy::~Enemy()
 {
     PosX = 0;
     PosY = 0;
+
     e_Width = 0;
     e_Height = 0;
+
     type = 0;
     if ( EnemyTexture != nullptr )
     {
@@ -40,7 +44,7 @@ Enemy::~Enemy()
  {
      SDL_Texture* tmpTexture = nullptr;
      SDL_Surface* tmpSurface = IMG_Load( path.c_str() );
-     if ( tmpSurface = nullptr )
+     if ( tmpSurface == nullptr )
      {
         LogError("Khong the load img ", IMAGE_ERROR);
      }
@@ -48,7 +52,7 @@ Enemy::~Enemy()
      {
          SDL_SetColorKey( tmpSurface, SDL_TRUE, SDL_MapRGB( tmpSurface->format, 0, 255, 255 ) );
          tmpTexture = SDL_CreateTextureFromSurface( g_Renderer, tmpSurface);
-         if ( tmpSurface = nullptr )
+         if ( tmpSurface == nullptr )
          {
             LogError("Khong the tao ket cau tu be mat", SDL_ERROR);
          }
@@ -67,9 +71,9 @@ Enemy::~Enemy()
       if ( PosX + MAX_ENEMY_WIDTH < 0 )
       {
           PosX = rand() % ( SCREEN_WIDTH + ENEMY_POSITION_RANGE ) + SCREEN_WIDTH;
-          if ( type = IN_AIR_ENEMY )
+          if ( type == IN_AIR_ENEMY )
           {
-              PosY = 330;
+              PosY =  250;
           }
       }
   }
@@ -121,3 +125,4 @@ int Enemy::GetHeight()
 {
     return e_Height;
 }
+
