@@ -43,14 +43,14 @@ void Bullet::Move( Character ech )
     {
         return;
     }
-    if ( time >= 100 )
+    if ( time >= 20 )
     {
         reset();
         return;
     }
     time++;
-    PosX = ech.GetPosX();
-    PosY = ech.GetPosY();
+    PosX = ech.GetPosX() + 50;
+    PosY = ech.GetPosY() + 25;
 }
 
 void Bullet::Render( SDL_Renderer* g_Renderer, SDL_Rect* currentClip )
