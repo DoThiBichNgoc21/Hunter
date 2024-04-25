@@ -1,6 +1,7 @@
 #ifndef KETHU_H_
 #define KETHU_H_
 
+
 #include "BaseObject.h"
 
 #define ENEMY_MAX_HEIGHT 300

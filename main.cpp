@@ -773,3 +773,4 @@ void Close()
     Mix_Quit();
     SDL_Quit();
 }
+

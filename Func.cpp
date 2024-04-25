@@ -1,5 +1,6 @@
 #include "Func.h"
 
+
 using namespace std;
 
 //kiem tra loi thuoc linh vuc nao de de dang fix
