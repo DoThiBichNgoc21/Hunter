@@ -6,6 +6,8 @@
 #include "ThanhMau.h"
 #include "TienIch.h"
 #include "KeThu.h"
+#include "Da.h"
+#include "Bullet.h"
 
 using namespace std;
 
@@ -32,6 +34,7 @@ SDL_Rect g_CharacterClips[RUN_FRAMES];
 SDL_Rect g_HealthBarClips[HEALTHBAR_FRAMES];
 SDL_Rect g_EnemyClips[FLYING_FRAMES];
 SDL_Rect g_AppleClips[APPLE_FRAMES];
+SDL_Rect g_DaClips[DA_FRAMES];
 
 BaseObject g_MenuTexture;
 BaseObject g_InstructionTexture;
@@ -52,6 +55,7 @@ BaseObject g_Text2Texture;
 BaseObject g_HighScoreTexture;
 BaseObject g_Text3Texture;
 BaseObject g_HPTexture;
+BaseObject g_BulletTexture;
 
 Button PlayButton(PLAY_BUTTON_X, PLAY_BUTTON_Y);
 Button HelpButton(HELP_BUTTON_X, HELP_BUTTON_Y);
@@ -132,28 +136,25 @@ int main(int argc, char* argv[])
                 int frame_Enemy = 0;
                 int frame_Apple = 0;
                 int frame_HealthBar = 0;
+                int frame_Da = 0;
+                int frame_Bullet = 0;
+                int numbullet = 1;
                 string highscore = GetHighScoreFromFile("Max.txt");  //Lấy điểm số cao nhất từ tệp và lưu vào biến
 
                 SDL_Event e;
                 Enemy enemy1(ON_GROUND_ENEMY);
                 Enemy enemy2(ON_GROUND_ENEMY);
-                if(abs(enemy1.PosX - enemy2.PosX) < 60)
-                {
-                    if(enemy1.PosX < enemy2.PosX)
-                    {
-                        enemy1.PosX -= 150 *(rand() % 4 + 1);
-                    }
-                    else enemy2.PosX -= 150 *(rand() % 4 + 1);
-                }
-
                 Enemy enemy3(IN_AIR_ENEMY);
+                Da da;
                 Apple apple;
+                Bullet bullet;
 
                 Mix_PlayMusic(g_Music, IS_REPEATITIVE);
 
                 TaoKeThu(enemy1, enemy2, enemy3, g_EnemyClips, g_Renderer);
-
+                TaoDa(da, g_DaClips, g_Renderer);
                 TaoQua(apple, g_AppleClips, g_Renderer);
+                TaoBullet(bullet, g_Renderer);
 
                 int OffSetSpeed_Ground = BASE_OFFSET_SPEED;
                 int OffSetSpeed_BackGround = BASE_OFFSET_SPEED;
@@ -178,6 +179,14 @@ int main(int argc, char* argv[])
                             XuliPauseButton(e, g_Renderer, g_ContinueButton, PauseButton, ContinueButton,
                                             g_ContinueButtonTexture, Game_State, g_Click, Quit, Play_Again);
                             character.Event(e, g_Jump);
+
+                            if ( (numbullet>0) && ( e.type == SDL_KEYDOWN) && (e.key.keysym.sym == 97) )
+                            {
+                                bullet.Start();
+                                numbullet--;
+
+                            }
+                            cout << numbullet << endl;
                         }
 
                         SDL_SetRenderDrawColor(g_Renderer, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -187,6 +196,9 @@ int main(int argc, char* argv[])
                         RenderScrollingGroud( OffSetSpeed_Ground, acceleration, g_GroundTexture, g_Renderer );
 
                         character.DiChuyen();
+                        SDL_Rect* currentClip_Bullet = nullptr;
+                        bullet.Move(character);
+                        bullet.Render(g_Renderer, currentClip_Bullet);
                         SDL_Rect* currentClip_Character = nullptr;
                         if (character.TrenMatDat())
                         {
@@ -222,6 +234,10 @@ int main(int argc, char* argv[])
                         enemy3.Move(acceleration);
                         enemy3.Render(g_Renderer, currentClip_Enemy);
 
+                        SDL_Rect* currentClip_Da = &g_DaClips[frame_Da];
+                        da.Move(acceleration);
+                        da.Render(g_Renderer, currentClip_Da);
+
                         SDL_Rect* currentClip_Apple = &g_AppleClips[frame_Apple];
                         //cout << frame_Apple << '\n';
                         apple.Move(acceleration);
@@ -233,6 +249,17 @@ int main(int argc, char* argv[])
                         DrawPlayerScore(g_Text1Texture, g_ScoreTexture, textColor, g_Renderer, g_Front, score);
                         DrawPlayerHighScore(g_Text2Texture, g_HighScoreTexture, textColor, g_Renderer, g_Front, highscore);
 
+                        if ( KiemTraVaChamDa( character, da, currentClip_Character, currentClip_Da, bullet, currentClip_Bullet ) )
+                        {
+                            Quit = true;
+                        }
+                        else
+                        {
+                            if ( numbullet < 4 )
+                            {
+                                numbullet++;
+                            }
+                        }
                         if (KiemtraVaChamKeThu( character, enemy1, enemy2, enemy3,
                                                 currentClip_Character, currentClip_Enemy))
                         {
