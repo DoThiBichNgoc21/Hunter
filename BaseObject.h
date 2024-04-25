@@ -12,7 +12,7 @@ public:
     BaseObject();
     ~BaseObject();
 
-    bool LoadFromRenderedTexture ( string TextureText, TTF_Font* g_Font, SDL_Color textColor, SDL_Renderer* g_Renderer); //TAO KET CAU TU TEP VAN BAN
+    bool LoadFromRenderedTexture( string TextureText, TTF_Font* g_Font, SDL_Color textColor, SDL_Renderer* g_Renderer); //TAO KET CAU TU TEP VAN BAN
     bool LoadFromFile(string path, SDL_Renderer* g_Renderer);    //TAO KET CAU TU TEP HINH ANH
     void Render(int x, int y, SDL_Renderer* gRenderer, SDL_Rect* clip = nullptr);   //VE KET CAU TAI CAC VI TRI TOA DO (X,Y)
     void Free();
