@@ -104,4 +104,3 @@ void Apple::Render ( SDL_Renderer* g_Renderer, SDL_Rect* currentClip )
 
 
 
-
