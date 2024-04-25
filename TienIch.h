@@ -9,6 +9,8 @@
 #include "Ech.h"
 #include "ThanhMau.h"
 #include "Func.h"
+#include "Da.h"
+#include "Bullet.h"
 
 #include <windows.h>
 
@@ -58,7 +60,7 @@ void XuliContinueButton ( Button ContinueButton,
                          SDL_Renderer* g_Renderer,
                          SDL_Rect(&g_ContinueButton)[BUTTON_TOTAL],
                          bool& Game_State,
-                         Mix_Chunk* g_Click );
+                         Mix_Chunk* g_Click, bool &quitGame, bool &Play_Again );
 
 void XuliPauseButton ( SDL_Event &e,
                       SDL_Renderer* g_Renderer,
@@ -67,7 +69,7 @@ void XuliPauseButton ( SDL_Event &e,
                       Button ContinueButton,
                       BaseObject g_ContinueButtonTexture,
                       bool& game_state,
-                      Mix_Chunk* g_Click );
+                      Mix_Chunk* g_Click, bool &quitGame, bool &Play_Again);
 
 void TaoKeThu ( Enemy& enemy1,
                 Enemy& enemy2,
@@ -78,6 +80,23 @@ void TaoKeThu ( Enemy& enemy1,
 void TaoQua ( Apple& apple,
              SDL_Rect(&g_AppleClips)[APPLE_FRAMES],
              SDL_Renderer* g_Renderer);
+
+void TaoDa ( Da& da,
+            SDL_Rect (&g_DaClips)[DA_FRAMES],
+            SDL_Renderer* g_Renderer);
+
+void TaoBullet(Bullet& bullet,
+               SDL_Renderer* g_Renderer);
+
+bool KiemTraVaCham3 (Character character,
+                     SDL_Rect* char_clip,
+                     Da da,
+                     SDL_Rect* da_clip = nullptr );
+
+bool KiemTraVaCham4(Bullet bullet____,
+                    SDL_Rect* bullet_clip____,
+                    Da da____,
+                    SDL_Rect* da_clip____ = nullptr );
 
 bool KiemtraVaCham (Character character,
                     SDL_Rect* char_clip,
@@ -100,6 +119,13 @@ bool KiemtraVaChamHoiMau ( Character character,
                           Apple apple,
                            SDL_Rect* char_clip,
                            SDL_Rect* apple_clip = nullptr );
+
+bool KiemTraVaChamDa(Character character__,
+                     Da &da__,
+                     SDL_Rect* char_clip__,
+                     SDL_Rect* da_clip__,
+                     Bullet bullet__,
+                     SDL_Rect* bullet_clip__= nullptr );
 
 void KiemsoatHP ( int& frame, int hp);
 
