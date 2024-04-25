@@ -20,18 +20,17 @@ void BaseObject::Free()          //Giai phong bo nho cua texture duoc tao bang S
 {
     if ( m_Texture != nullptr )
     {
-        SDL_DestroyTexture(m_Texture);
         m_Texture = nullptr;
         m_Width = 0;
         m_Height = 0;
     }
 }
 
-bool LoadFromRenderedTexture ( string TextureText, TTF_Font* g_Font, SDL_Color textColor, SDL_Renderer* g_Renderer)
+bool BaseObject::LoadFromRenderedTexture ( string TextureText, TTF_Font* g_Font, SDL_Color textColor, SDL_Renderer* g_Renderer)
 {
     Free();
 
-    SDL_Surface* textSurface = TTF_RenderGlyph32_Solid( g_Font, TextureText.c_str(), textColor);
+    SDL_Surface* textSurface = TTF_RenderText_Solid( g_Font, TextureText.c_str(), textColor);
     if( textSurface == nullptr )
     {
         cout << "SDL_ttf Error: " << TTF_GetError() << endl;
@@ -50,7 +49,7 @@ bool LoadFromRenderedTexture ( string TextureText, TTF_Font* g_Font, SDL_Color t
         }
         SDL_FreeSurface(textSurface);
     }
-    return mTexture != nullptr;
+    return m_Texture != nullptr;
 }
 
 bool BaseObject::LoadFromFile(string path, SDL_Renderer* g_Renderer)
@@ -62,15 +61,15 @@ bool BaseObject::LoadFromFile(string path, SDL_Renderer* g_Renderer)
 
     if ( tempSurface == nullptr )
     {
-        LogError("can't load image", IMG_ERROR);
+        LogError("can't load image", IMAGE_ERROR);
     }
     else
     {
-        SDL_SetColorKey( tempSurface, SDL_TRUE< SDL_MapRGB(tempSurface->format,0, 255, 255));
-        tmpTexture = SDL_CreateTextureFromSurface(g_Renderer, tempSurface);
+        SDL_SetColorKey( tempSurface, SDL_TRUE, SDL_MapRGB(tempSurface->format,0, 255, 255));
+        tempTexture = SDL_CreateTextureFromSurface(g_Renderer, tempSurface);
         if (tempTexture == nullptr)
         {
-            LogError("Can not create texture from surface.", SDL_ERROR);
+           LogError("Can not create texture from surface.", SDL_ERROR);
         }
         else
         {

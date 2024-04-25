@@ -1,6 +1,6 @@
 #include "Ech.h"
 #include "TienIch.h"
-
+#include "Bullet.h"
 using namespace std;
 
 Character::Character()
@@ -50,7 +50,7 @@ void Character::DiChuyen()
     }
     if ( status == FALL && posY < GROUND )
     {
-        status += ROI_SPEED;
+        posY += ROI_SPEED;
     }
     if ( status == RUSH && posY == GROUND )           //Cần thiết vì hàm chỉ được thực hiện khi có các dòng lênh if này
     {

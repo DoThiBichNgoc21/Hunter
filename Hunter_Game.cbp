@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Hunter_Game" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Hunter_Game" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Hunter_Game" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="BaseObject.cpp" />
+		<Unit filename="BaseObject.h" />
+		<Unit filename="Botton.cpp" />
+		<Unit filename="Botton.h" />
+		<Unit filename="Bullet.cpp" />
+		<Unit filename="Bullet.h" />
+		<Unit filename="Da.cpp" />
+		<Unit filename="Da.h" />
+		<Unit filename="Ech.cpp" />
+		<Unit filename="Ech.h" />
+		<Unit filename="Func.cpp" />
+		<Unit filename="Func.h" />
+		<Unit filename="HoiMau.cpp" />
+		<Unit filename="HoiMau.h" />
+		<Unit filename="KeThu.cpp" />
+		<Unit filename="KeThu.h" />
+		<Unit filename="ThanhMau.cpp" />
+		<Unit filename="ThanhMau.h" />
+		<Unit filename="TienIch.cpp" />
+		<Unit filename="TienIch.h" />
+		<Unit filename="main.cpp" />
+		<Extensions />
+	</Project>
+</CodeBlocks_project_file>

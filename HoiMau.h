@@ -15,7 +15,7 @@ public:
 
     void LoadFromFile(string path, SDL_Renderer* g_Renderer );
     void Move( const int& acceleration );
-    void Render ( SDL_Renderer* g_Renderer, SDL_Rect* currentClip = nullptr );
+    void Render( SDL_Renderer* g_Renderer, SDL_Rect* currentClip = nullptr );
 
     int Speed( const int& acceleration );
     int GetPosX();

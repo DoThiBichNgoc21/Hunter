@@ -201,13 +201,19 @@ void XuliContinueButton ( Button ContinueButton,
                          SDL_Renderer* g_Renderer,
                          SDL_Rect (&g_ContinueButton)[BUTTON_TOTAL],
                          bool& Game_State,
-                         Mix_Chunk* g_Click )
+                         Mix_Chunk* g_Click, bool &quitGame, bool &Play_Again )
 {
     bool back_to_game = false;
     while ( !back_to_game )
     {
         do
         {
+            if(e.type == SDL_QUIT)
+            {
+                quitGame = true;
+                Play_Again = false;
+                return;
+            }
             if ( e.type == SDL_KEYDOWN && e.key.repeat == 0 && Game_State == false )
             {
                 switch (e.key.keysym.sym)
@@ -227,7 +233,7 @@ void XuliContinueButton ( Button ContinueButton,
 
             SDL_RenderPresent( g_Renderer );
         }
-        while ( SDL_WaitEvent( &e ) != 0 && SDL_KEYDOWN );
+        while ( SDL_WaitEvent( &e ) != 0);
     }
 }
 
@@ -238,7 +244,7 @@ void XuliPauseButton ( SDL_Event& e,
                       Button ContinueButton,
                       BaseObject g_ContinueButtonTexture,
                       bool& game_state,
-                      Mix_Chunk* g_Click )
+                      Mix_Chunk* g_Click, bool &quitGame, bool &Play_Again )
 {
     if ( e.type == SDL_KEYDOWN && e.key.repeat == 0 && game_state == true )
     {
@@ -247,7 +253,7 @@ void XuliPauseButton ( SDL_Event& e,
         case SDLK_LEFT:
             PauseButton.currentSprite = BUTTON_MOUSE_OVER;
             game_state = false;
-            XuliContinueButton( ContinueButton, g_ContinueButtonTexture, e, g_Renderer, g_ContinueButton, game_state, g_Click );
+            XuliContinueButton( ContinueButton, g_ContinueButtonTexture, e, g_Renderer, g_ContinueButton, game_state, g_Click, quitGame, Play_Again);
             Mix_PlayChannel( MIX_CHANNEL, g_Click, NOT_REPEATITIVE );
             Mix_PauseMusic();
             break;
@@ -306,13 +312,97 @@ void TaoQua( Apple& apple,
     }
 }
 
+void TaoDa( Da& da,
+            SDL_Rect (&g_DaClips)[DA_FRAMES],
+            SDL_Renderer* g_Renderer)
+{
+     da.LoadFromFile("img/KeThu/da.png", g_Renderer );
+     {
+         g_DaClips[0].x = 178 * 0;
+         g_DaClips[0].y = 0;
+         g_DaClips[0].w = 178;
+         g_DaClips[0].h = 279;
+
+         g_DaClips[1].x = 178 * 1;
+         g_DaClips[1].y = 0;
+         g_DaClips[1].w = 178;
+         g_DaClips[1].h = 279;
+     }
+}
+
+void TaoBullet(Bullet& bullet,
+               SDL_Renderer* g_Renderer)
+{
+    bullet.LoadFromFile("img/Bullet/Bullet.png", g_Renderer);
+}
+
+bool KiemTraVaCham3 (Character character__,
+                     SDL_Rect* char_clip__,
+                     Da da__,
+                     SDL_Rect* da_clip__ )
+{
+    int left_a__ = character__.GetPosX();
+    int right_a__ = character__.GetPosX() + char_clip__->w;
+    int top_a__ = character__.GetPosY();
+    int bottom_a__ = character__.GetPosY() + char_clip__->h;
+
+     const int TRASH_PIXEL_1 = 9;
+     const int TRASH_PIXEL_2 = 9;
+
+     int left_b__ = da__.GetPosX() + TRASH_PIXEL_1;
+     int right_b__ = da__.GetPosX() + char_clip__->w - TRASH_PIXEL_1;
+     int top_b__ = da__.GetPosY();
+     int bottom_b__ = da__.GetPosY() + char_clip__->h - TRASH_PIXEL_2;
+
+     if ( right_a__ - TRASH_PIXEL_1 >= left_b__ && left_a__ + TRASH_PIXEL_1 <= right_b__ )
+     {
+         if ( bottom_a__ - TRASH_PIXEL_2 >= top_b__ )
+         {
+             return true;
+         }
+     }
+     return false;
+}
+
+bool KiemTraVaCham4(Bullet bullet____,
+                    SDL_Rect* bullet_clip____,
+                    Da da____,
+                    SDL_Rect* da_clip____)
+{
+    int left_a____ = bullet____.GetPosX();
+	int right_a____ = bullet____.GetPosX() + bullet____.GetWidth();
+	int top_a____ = bullet____.GetPosY();
+	int bottom_a____ = bullet____.GetPosY() + bullet____.GetHeight();
+
+	const int TRASH_PIXEL = 9;
+
+    int left_b____ = da____.GetPosX() + TRASH_PIXEL;
+    int right_b____ = da____.GetPosX() + da_clip____->w - TRASH_PIXEL ;
+    int top_b____ = da____.GetPosY();
+    int bottom_b____ = da____.GetPosY() + da_clip____->h - TRASH_PIXEL ;
+
+    if (right_a____ >= left_b____ && left_a____ <= right_b____)
+    {
+        if (top_a____ <= bottom_b____ && top_a____ >= top_b____)
+        {
+            return true;
+        }
+
+        if (bottom_a____ >= bottom_b____ && bottom_a____ <= top_b____)
+        {
+            return true;
+        }
+    }
+
+	return false;
+}
+
 bool KiemtraVaCham (Character character,
                     SDL_Rect* char_clip,
                     Enemy enemy,
                     SDL_Rect* enemy_clip )
 
 {
-    bool VaCham = false;
     int left_a = character.GetPosX();
     int right_a = character.GetPosX() + char_clip->w;
     int top_a = character.GetPosY();
@@ -332,7 +422,7 @@ bool KiemtraVaCham (Character character,
         {
            if ( bottom_a - TRASH_PIXEL_2 >= top_b )
            {
-               VaCham = true;
+               return true;
            }
         }
     }
@@ -350,15 +440,15 @@ bool KiemtraVaCham (Character character,
         {
             if ( top_a <= bottom_b && bottom_a >= top_b )
             {
-                VaCham = true;
+                return true;
             }
             if ( bottom_a >= bottom_b && bottom_a <= top_b )
             {
-                VaCham = true;
+                return true;
             }
         }
     }
-    return VaCham;
+    return false;
 }
 
 bool KiemtraVaCham2 ( Character  character_,
@@ -366,8 +456,6 @@ bool KiemtraVaCham2 ( Character  character_,
                       Apple apple_,
                       SDL_Rect* apple_clip_ )
 {
-    bool VaCham2 = false;
-
     int left_a_ = character_.GetPosX();
     int right_a_ = character_.GetPosX() + char_clip_->w;
     int top_a_ = character_.GetPosY();
@@ -377,18 +465,18 @@ bool KiemtraVaCham2 ( Character  character_,
      const int TRASH_PIXEL_2 = 0;
 
      int left_b_ = apple_.GetPosX() + TRASH_PIXEL_1;
-     int right_b_ = apple_.GetPosX() + char_clip_->w - TRASH_PIXEL_1;
+     int right_b_ = apple_.GetPosX() + apple_clip_->w - TRASH_PIXEL_1;
      int top_b_ = apple_.GetPosY();
-     int bottom_b_ = apple_.GetPosY() + char_clip_->h - TRASH_PIXEL_2;
+     int bottom_b_ = apple_.GetPosY() + apple_clip_->h - TRASH_PIXEL_2;
 
      if ( right_a_ - TRASH_PIXEL_1 >= left_b_ && left_a_ + TRASH_PIXEL_1 <= right_b_ )
      {
-         if ( bottom_a_ - TRASH_PIXEL_2 >= top_b_ )
+         if ( bottom_a_ - TRASH_PIXEL_2 >= top_b_ && top_a_ + TRASH_PIXEL_2 <= bottom_b_)
          {
-             VaCham2 = true;
+             return true;
          }
      }
-     return VaCham2;
+     return false;
 }
 
 bool KiemtraVaChamKeThu ( Character character,
@@ -419,6 +507,25 @@ bool KiemtraVaChamHoiMau ( Character character_,
                            SDL_Rect* apple_clip_ )
 {
     if ( KiemtraVaCham2 ( character_, char_clip_, apple_, apple_clip_ ) )
+    {
+        return true;
+    }
+    return false;
+}
+
+bool KiemTraVaChamDa(Character character__,
+                     Da &da__,
+                     SDL_Rect* char_clip__,
+                     SDL_Rect* da_clip__,
+                     Bullet bullet__,
+                     SDL_Rect* bullet_clip__ )
+{
+    if ( KiemTraVaCham4( bullet__, bullet_clip__, da__, da_clip__ ) )
+    {
+        da__.Reset();
+        //return false;
+    }
+    if ( KiemTraVaCham3( character__, char_clip__, da__, da_clip__))
     {
         return true;
     }

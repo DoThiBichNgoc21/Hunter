@@ -11,8 +11,8 @@
 class Character
 {
 public:
-    static const int NHAY_SPEED = 8;
-    static const int ROI_SPEED = 8;
+    static const int NHAY_SPEED = 6;
+    static const int ROI_SPEED = 6;
 
     Character();
 

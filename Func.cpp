@@ -3,7 +3,7 @@
 using namespace std;
 
 //kiem tra loi thuoc linh vuc nao de de dang fix
-void ToErorr9( string error, int error_code )
+void LogError( string error, int error_code )
 {
     if ( error_code == SDL_ERROR )
     {

@@ -1,0 +1,97 @@
+# depslib dependency file v1.0
+1713035566 source:d:\hunter_game\func.cpp
+	"Func.h"
+
+1714073170 d:\hunter_game\func.h
+	<iostream>
+	<string>
+	<vector>
+	<fstream>
+	<SDL.h>
+	<SDL_image.h>
+	<SDL_mixer.h>
+	<SDL_ttf.h>
+	<ctime>
+	<sstream>
+
+1714025625 source:d:\hunter_game\hoimau.cpp
+	"HoiMau.h"
+
+1714073170 d:\hunter_game\hoimau.h
+	"BaseObject.h"
+
+1714073170 d:\hunter_game\baseobject.h
+	"Func.h"
+
+1713429267 source:d:\hunter_game\baseobject.cpp
+	"BaseObject.h"
+
+1714045350 source:d:\hunter_game\kethu.cpp
+	"KeThu.h"
+
+1713725272 d:\hunter_game\kethu.h
+	"BaseObject.h"
+
+1713102412 source:d:\hunter_game\botton.cpp
+	"Botton.h"
+
+1713087389 d:\hunter_game\botton.h
+	"BaseObject.h"
+	"Func.h"
+
+1713603074 source:d:\hunter_game\thanhmau.cpp
+	"ThanhMau.h"
+
+1713017497 d:\hunter_game\thanhmau.h
+	"BaseObject.h"
+
+1714034083 source:d:\hunter_game\ech.cpp
+	"Ech.h"
+	"TienIch.h"
+	"Bullet.h"
+
+1714073170 d:\hunter_game\ech.h
+	"BaseObject.h"
+
+1714073170 d:\hunter_game\tienich.h
+	"BaseObject.h"
+	"Botton.h"
+	"Ech.h"
+	"KeThu.h"
+	"HoiMau.h"
+	"Ech.h"
+	"ThanhMau.h"
+	"Func.h"
+	"Da.h"
+	"Bullet.h"
+	<windows.h>
+
+1714042097 source:d:\hunter_game\main.cpp
+	"BaseObject.h"
+	"Func.h"
+	"Botton.h"
+	"Ech.h"
+	"HoiMau.h"
+	"ThanhMau.h"
+	"TienIch.h"
+	"KeThu.h"
+	"Da.h"
+	"Bullet.h"
+
+1714046648 source:d:\hunter_game\tienich.cpp
+	"TienIch.h"
+
+1714032333 d:\hunter_game\da.h
+	"BaseObject.h"
+
+1714033103 source:d:\hunter_game\da.cpp
+	"Da.h"
+
+1714045848 source:d:\hunter_game\bullet.cpp
+	"Bullet.h"
+
+1714025625 d:\hunter_game\bullet.h
+	"BaseObject.h"
+	"Func.h"
+	"Ech.h"
+

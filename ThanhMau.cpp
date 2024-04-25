@@ -4,7 +4,7 @@ using namespace std;
 
 HealthBar::HealthBar()
 {
-    PosX = 520;
+    PosX = 400;
     PosY = 35;
 }
 
