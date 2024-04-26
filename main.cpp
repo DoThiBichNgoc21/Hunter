@@ -413,7 +413,7 @@ bool LoadMedia()        //Tải các tài nguyên cần thiết cho chương tr�
                 cout << "Khong the hien thi ket cau text1" << endl;
                 success = false;
             }
-            if(!g_Text2Texture.LoadFromRenderedTexture("Diem cao: ", g_Front, textColor, g_Renderer))
+            if(!g_Text2Texture.LoadFromRenderedTexture("Diem cao nhat: ", g_Front, textColor, g_Renderer))
             {
                 cout << "Khong the hien thi ket cau text2" << endl;
                 success = false;
