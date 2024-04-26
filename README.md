@@ -47,6 +47,8 @@ Sau khi giải nén thành công, click vào file Hunter_Game.exe là có thể 
 #### Cài đặt và chạy game
 - Tải game dưới dạng file zip hoặc mở cmd và nhập lệnh sau:
 
+  `git clone https://github.com/DoThiBichNgoc21/Hunter.git`
+
 - Mở project ( giải nén file nếu cần ), click vào file có đuôi .cbp để mở tất cả các code của game sau đó chạy chương trình và tiến hành chơi game.
 - Nếu không thể chạy game, hãy liên hệ qua Email: dtbntq21@gmail.com .
 
