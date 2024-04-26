@@ -8,6 +8,7 @@
 ## Giới thiệu game
 ### Câu chuyện
 - Nhân vật chính là chú ếch tên Hunter. Hunter tham gia một cuộc thi chạy marathon, trên đường chạy, Hunter gặp rất nhiều chướng ngại vật và phải vượt qua chúng để có thể tiếp tục với hành trình chạy marathon của mình.
+- Video Demo game: https://youtu.be/pZ7wi-mLrw0
 ### Mục lục
 - [1. Cách tải game](https://github.com/DoThiBichNgoc21/Hunter?tab=readme-ov-file#1-c%C3%A1ch-t%E1%BA%A3i-game)
   + [a) Không bao gồm code](https://github.com/DoThiBichNgoc21/Hunter?tab=readme-ov-file#a-kh%C3%B4ng-bao-g%E1%BB%93m-code)
@@ -27,7 +28,8 @@
 ## 1. Cách tải game
 ### a) Không bao gồm code
 Nếu bạn chỉ muốn tải và chơi Game thì chỉ cần tải và giải nén file đã được đóng gói trong link dưới đây:
-
+  https://drive.google.com/file/d/1H8ihNhY3lSmGtjqSuP5H2VVLcvp0V8qt/view?usp=sharing
+  
 Sau khi giải nén thành công, click vào file Hunter_Game.exe là có thể bắt đầu chơi luôn.
 
 ### b) Bao gồm code và có thể biên dịch
